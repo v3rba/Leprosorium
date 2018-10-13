@@ -94,7 +94,8 @@ get '/details/:post_id' do
 
   # выбираем комментарии для нашего поста
 
-  @Comments = @db.execute 'select * from Comments where post_id = ? order by id', [post_id]
+  @comments = @db.execute 'select * from Comments where post_id = ? order by id', [post_id]
+
   # возвращаем представление details.erb
   erb :details
 end
