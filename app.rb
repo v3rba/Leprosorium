@@ -47,7 +47,7 @@ get '/' do
 
   # выбираем список постов из БД
 
-  @results = @db.execute 'select * from Posts order by  id desc'
+  @results = @db.execute 'select * from Posts order by id desc'
 
 	erb :index
 end
@@ -100,12 +100,17 @@ end
 # (браузер отправляет данные на сервер. мы их принимаем)
 
 post '/details/:post_id' do
+
   # получаем переменную из url'a
   post_id = params[:post_id]
 
   # получаем переменную из post-запроса
   content = params[:content]
 
-  erb "You typed comment: #{content} for post #{post_id}"
+  # сохранение данных в бд
+
+  @db.execute 'insert into Comments (content, created_date, post_id) values (?, datetime(),?)', [content, post_id]
+
+  redirect to('/details/' + post_id)
 end
 
